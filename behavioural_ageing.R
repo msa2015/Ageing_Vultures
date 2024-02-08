@@ -1,5 +1,5 @@
 
-################################################################################
+####################################################################################################
 ## Evaluate the effect of age on different behaviours: 
 # a) Roost fidelity
 # b) Probability of having a routine
@@ -7,7 +7,7 @@
 # d) Probability of occupying a popular roost
 # e) Normalized degree
 # f) Average strength
-################################################################################
+####################################################################################################
 
 
 # ---- Set up ----
@@ -32,12 +32,12 @@ season_colours <- c("Breeding" = "#24586e", "Transient" = "#CE8B00", "Post-breed
 
 # ---- Upload datasets ----
 # If necessary, download the datasets from Zenodo
-roost_df <- read.csv("df_roost_movement.csv")
+roost_df <- read.csv("Data/df_roost_movement.csv")
 roost_df$age_scale <- scale(roost_df$age, center = TRUE, scale = TRUE)
 roost.age.scale <- attr(roost_df$age_scale,"scaled:scale")
 roost.age.center <- attr(roost_df$age_scale,"scaled:center")
 
-routine_df <- read.csv("df_routine.csv")
+routine_df <- read.csv("Data/df_routine.csv")
 routine_df$age_scale <- scale(routine_df$age, center = TRUE, scale = TRUE)
 routine_df$seq_length_scale <- scale(routine_df$seq_length, center = FALSE, scale = TRUE)
 
@@ -50,7 +50,7 @@ routine_index_df$age_scale <- scale(routine_index_df$age, center = TRUE, scale =
 index.age.scale <- attr(routine_index_df$age_scale,"scaled:scale")
 index.age.center <- attr(routine_index_df$age_scale,"scaled:center")
 
-social_df <- read.csv("df_social.csv")
+social_df <- read.csv("Data/df_social.csv")
 social_df$age_scale <- scale(social_df$age, center = TRUE, scale = TRUE)
 social.age.scale <- attr(social_df$age_scale,"scaled:scale")
 social.age.center <- attr(social_df$age_scale,"scaled:center")

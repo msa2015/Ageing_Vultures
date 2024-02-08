@@ -1,8 +1,8 @@
 
-################################################################################
-## Evaluate the effect of individual plasticity and selective disappearance in
-## shaping the observed age-related changes in roost fidelity, roost popularity and average strength 
-################################################################################
+####################################################################################################
+## Evaluate the effect of individual plasticity and selective disappearance in shaping the observed
+## age-related changes in roost fidelity, roost popularity and average strength 
+###################################################################################################
 
 library(glmmTMB)
 library(lme4)
@@ -18,12 +18,12 @@ model_colours <- c("Age" = "#f3df6c", "Age + ID" = "#ceab07",
 
 # ---- Upload datasets ----
 # If necessary, download the datasets from Zenodo
-roost_df <- read.csv("df_roost_movement.csv")
+roost_df <- read.csv("Data/df_roost_movement.csv")
 roost_long_df <- droplevels(subset(roost_df, !is.na(longevity_5x)))
 roost_long_df$age_scale <- scale(roost_long_df$age, center = TRUE, scale = TRUE)
 roost_long_df$longevity_5x_scale <- scale(roost_long_df$longevity_5x, center = TRUE, scale = TRUE)
 
-social_df <- read.csv("df_social.csv")
+social_df <- read.csv("Data/df_social.csv")
 social_long_df <- droplevels(subset(social_df, !is.na(longevity_5x)))
 social_long_df$age_scale <- scale(social_long_df$age, center = TRUE, scale = TRUE)
 social_long_df$longevity_5x_scale <- scale(social_long_df$longevity_5x, center = TRUE, scale = TRUE)
@@ -154,9 +154,9 @@ roost_mechanism_plot <- ggplot(subset(movement_estimates_df, analysis == "Roost 
                 width = 0, position = position_dodge(0.5), linewidth = 1.5, alpha = 0.8) +
   geom_point(position = position_dodge(0.5), size = 4) +
   geom_hline(yintercept = 0, linetype = "dashed", colour = "grey50") +
-  ylab("Effect estimate") +
+  ylab("Effect size") +
   coord_flip() +
-  scale_x_discrete(name = "Predictors",
+  scale_x_discrete(name = "Model predictors",
                    labels = c("Age_1" = expression(Age ~ 1^st ~ polynomial),
                               "Age_2" = expression(Age ~ 2^nd ~ polynomial),
                               "Age_3" = expression(Age ~ 3^rd ~ polynomial),
@@ -181,9 +181,9 @@ popularity_mechanism_plot <- ggplot(subset(movement_estimates_df, analysis == "R
                 width = 0, position = position_dodge(0.5), linewidth = 1.5, alpha = 0.8) +
   geom_point(position = position_dodge(0.5), size = 4) +
   geom_hline(yintercept = 0, linetype = "dashed", colour = "grey50") +
-  ylab("Effect estimate") +
+  ylab("Effect size") +
   coord_flip() +
-  scale_x_discrete(name = "Predictors",
+  scale_x_discrete(name = "Model predictors",
                    labels = c("Age_1" = expression(Age ~ 1^st ~ polynomial),
                               "Age_2" = expression(Age ~ 2^nd ~ polynomial),
                               "Age_3" = expression(Age ~ 3^rd ~ polynomial),
