@@ -12,4 +12,4 @@ Marta Acácio, Kaija Gahm, Nili Anglister, Gideon Vaadia, Ohad Hatzofe, Roi Hare
 Available upon manuscript publication
 
 ### Data
-All data necessary to run these scripts is available at:
+All data necessary to run the analyses is available at:
