@@ -10,6 +10,7 @@ Marta Acácio, Kaija Gahm, Nili Anglister, Gideon Vaadia, Ohad Hatzofe, Roi Hare
 
 ### Citation
 Available upon manuscript publication
+Preprint: https://doi.org/10.32942/X22321
 
 ### Data
 All data necessary to run the analyses is available at the DOI: 10.5281/zenodo.10651582
