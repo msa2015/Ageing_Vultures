@@ -3,7 +3,44 @@
 ## Sensitivity analyses 
 ####################################################################################################
 
-# ---- Supplementary Figure S14 - Excluding individuals of unknown age ----
+# ---- Supplementary Figure S1 - No LRFs and different thresholds for roost fidelity -----
+fidelity_no_lrf <- glmmTMB(roost_fid ~ season * poly(age_scale, 3, raw=TRUE) + 
+                             (1|ID) + (1|year),
+                           REML = F,
+                           family = binomial(link = "logit"),
+                           data = subset(roost_df, is_lrf == 0))
+summary(fidelity_no_lrf)
+
+fidelity_no_lrf_plot <- plot_model(
+  fidelity_no_lrf, title = "Roost fidelity - no LRF", vline.color = "black",
+  transform =  NULL, show.values = TRUE, value.offset = .3) + theme_bw(base_size = 16)
+
+
+fidelity_1km <- glmmTMB(roost_fid_1km ~ season * poly(age_scale, 3, raw=TRUE) + 
+                          (1|ID) + (1|year),
+                        REML = F,
+                        family = binomial(link = "logit"),
+                        data = roost_df)
+summary(fidelity_1km)
+
+fidelity_1km_plot <- plot_model(
+  fidelity_1km, title = "Roost fidelity - 1km", vline.color = "black",
+  transform =  NULL, show.values = TRUE, value.offset = .3) + theme_bw(base_size = 16)
+
+
+fidelity_20km <- glmmTMB(roost_fid_20km ~ season * poly(age_scale, 3, raw=TRUE) + 
+                           (1|ID) + (1|year),
+                         REML = F,
+                         family = binomial(link = "logit"),
+                         data = roost_df)
+summary(fidelity_20km)
+
+fidelity_20km_plot <- plot_model(
+  fidelity_20km, title = "Roost fidelity - 20km", vline.color = "black",
+  transform =  NULL, show.values = TRUE, value.offset = .3) + theme_bw(base_size = 16)
+
+
+# ---- Supplementary Figure S6 - Excluding individuals of unknown age ----
 # Roost fidelity
 fidelity_known_age <- glmmTMB(roost_fid ~ season * poly(age_scale, 3, raw=TRUE) + 
                                 (1|ID) + (1|year),
@@ -75,44 +112,7 @@ avg_strength_known_age_plot <- plot_model(avg_strength_known_age,
   theme_bw(base_size = 16)
 
 
-# ---- Supplementary Figure S15 - No LRFs and different threholds for roost fidelity -----
-fidelity_no_lrf <- glmmTMB(roost_fid ~ season * poly(age_scale, 3, raw=TRUE) + 
-                             (1|ID) + (1|year),
-                           REML = F,
-                           family = binomial(link = "logit"),
-                           data = subset(roost_df, is_lrf == 0))
-summary(fidelity_no_lrf)
-
-fidelity_no_lrf_plot <- plot_model(
-  fidelity_no_lrf, title = "Roost fidelity - no LRF", vline.color = "black",
-  transform =  NULL, show.values = TRUE, value.offset = .3) + theme_bw(base_size = 16)
-
-
-fidelity_1km <- glmmTMB(roost_fid_1km ~ season * poly(age_scale, 3, raw=TRUE) + 
-                          (1|ID) + (1|year),
-                        REML = F,
-                        family = binomial(link = "logit"),
-                        data = roost_df)
-summary(fidelity_1km)
-
-fidelity_1km_plot <- plot_model(
-  fidelity_1km, title = "Roost fidelity - 1km", vline.color = "black",
-  transform =  NULL, show.values = TRUE, value.offset = .3) + theme_bw(base_size = 16)
-
-
-fidelity_20km <- glmmTMB(roost_fid_20km ~ season * poly(age_scale, 3, raw=TRUE) + 
-                           (1|ID) + (1|year),
-                         REML = F,
-                         family = binomial(link = "logit"),
-                         data = roost_df)
-summary(fidelity_20km)
-
-fidelity_20km_plot <- plot_model(
-  fidelity_20km, title = "Roost fidelity - 20km", vline.color = "black",
-  transform =  NULL, show.values = TRUE, value.offset = .3) + theme_bw(base_size = 16)
-
-
-# ---- Supplementary Figure S17 - Different popular roosts thresholds and no LRF ----
+# ---- Supplementary Figure S9 - Different popular roosts thresholds and no LRF ----
 popularity_25pc <- glmmTMB(popular_roost_25 ~ poly(age_scale, 3, raw = TRUE) * season + 
                              (1|ID) + (1|year),
                            family = binomial(link="logit"),
@@ -150,7 +150,7 @@ popularity_no_lrf_plot <- plot_model(popularity_no_lrf, title = "Roost popularit
   theme_bw(base_size = 16)
 
 
-# ---- Supplementary Figure S18 - Are old individuals driving roost popularity? ---- 
+# ---- Supplementary Figure S10 - Are old individuals driving roost popularity? ---- 
 # Randomly get 300 points for each age class (100 per season)
 sub_sample <- roost_df %>%
   filter(in_study_area == 1) %>%
@@ -184,7 +184,7 @@ popularity_sub_sample_plot <- plot_model(popularity_sub_sample,
   theme_bw(base_size = 16)
 
 
-# ---- Supplementary Figure S20 - Longevity estimated as 2 years after last observation ----
+# ---- Supplementary Figure S15 - Longevity estimated as 2 years after last observation ----
 roost_long_2y <- droplevels(subset(roost_df, !is.na(longevity_2y)))
 roost_long_2y$age_scale <- scale(roost_long_2y$age, center = TRUE, scale = TRUE)
 roost_long_2y$longevity_2y_scale <- scale(roost_long_2y$longevity_2y, center = TRUE, scale = TRUE)
@@ -498,7 +498,7 @@ sociality_mechanism_2y_plot <- ggplot(subset(social_estimates_2y, max.vif < 5),
         panel.grid = element_blank())
 
 
-# ---- Supplementary Figure S21 - Longevity estimated as 10 x the usual observation rate ----
+# ---- Supplementary Figure S16 - Longevity estimated as 10 x the usual observation rate ----
 roost_long_10x <- droplevels(subset(roost_df, !is.na(longevity_10x)))
 roost_long_10x$age_scale <- scale(roost_long_10x$age, center = TRUE, scale = TRUE)
 roost_long_10x$longevity_10x_scale <- scale(roost_long_10x$longevity_10x, center = TRUE, scale = TRUE)
@@ -809,4 +809,202 @@ sociality_mechanism_10x_plot <- ggplot(subset(social_estimates_10x, max.vif < 5)
   theme_bw(base_size = 18)+
   theme(legend.position = "none",
         panel.grid = element_blank())
+
+
+# ---- Supplementary Figure S17 - Longevity as a non-linear effect ----
+## Roost fidelity
+fidelity_age3_long <- glmmTMB(roost_fid ~ poly(age_scale, 3, raw = TRUE) * season +
+                                longevity_5x_scale +
+                                (1|ID) + (1|year), 
+                              REML = F, 
+                              family = binomial(link = "logit"),
+                              data = roost_df)
+
+fidelity_age3_long2 <- glmmTMB(roost_fid ~ poly(age_scale, 3, raw = TRUE) * season + 
+                                 longevity_5x_scale + I(longevity_5x_scale^2) + 
+                                 (1|ID) + (1|year), 
+                               REML = F,
+                               family = binomial(link = "logit"),
+                               data = roost_df)
+
+fidelity_long <- glmmTMB(roost_fid ~ longevity_5x_scale + season + 
+                           (1|ID) + (1|year),
+                         REML = F,
+                         family = binomial(link = "logit"),
+                         data = roost_df)
+
+fidelity_long2 <- glmmTMB(roost_fid ~ season +
+                            longevity_5x_scale + I(longevity_5x_scale^2) +
+                            (1|ID) + (1|year),
+                          REML = F,
+                          family = binomial(link = "logit"),
+                          data = roost_df)
+
+# Plot the results
+all_fidelity_long2 <- list(fidelity_long, fidelity_long2, fidelity_age3_long, fidelity_age3_long2)
+
+fidelity_long2_plot <- plot_models(all_fidelity_long2, 
+                                   m.labels = c("Longevity + ID",
+                                                "Longevity^2 + ID",
+                                                "Age + Longevity + ID",
+                                                "Age + Longevity^2 + ID"),
+                                   legend.title = "Models",
+                                title = "Roost fidelity",
+                                transform = NULL, vline.color = "black",
+                                colors = c("Longevity + ID"= "grey80", 
+                                           "Longevity^2 + ID" = "#d08af2", 
+                                           "Age + Longevity + ID" = "black",
+                                           "Age + Longevity^2 + ID" = "#a921eb")) + 
+  theme_bw()  
+
+
+## Roost Popularity 
+popularity_age3_long <- glmmTMB(is_popular_roost ~ poly(age_scale, 3, raw = TRUE) * season +
+                                longevity_5x_scale +
+                                (1|ID) + (1|year), 
+                              REML = F, 
+                              family = binomial(link = "logit"),
+                              data = roost_df)
+
+popularity_age3_long2 <- glmmTMB(is_popular_roost ~ poly(age_scale, 3, raw = TRUE) * season + 
+                                 longevity_5x_scale + I(longevity_5x_scale^2) + 
+                                 (1|ID) + (1|year), 
+                               REML = F,
+                               family = binomial(link = "logit"),
+                               data = roost_df)
+
+popularity_long <- glmmTMB(is_popular_roost ~ longevity_5x_scale + season + 
+                           (1|ID) + (1|year),
+                         REML = F,
+                         family = binomial(link = "logit"),
+                         data = roost_df)
+
+popularity_long2 <- glmmTMB(is_popular_roost ~ season +
+                            longevity_5x_scale + I(longevity_5x_scale^2) +
+                            (1|ID) + (1|year),
+                          REML = F,
+                          family = binomial(link = "logit"),
+                          data = roost_df)
+
+
+# Plot the results
+all_popularity_long2 <- list(popularity_long, popularity_long2, 
+                             popularity_age3_long, popularity_age3_long2)
+
+popularity_long2_plot <- plot_models(all_popularity_long2, 
+                                m.labels = c("Longevity + ID",
+                                             "Longevity^2 + ID",
+                                             "Age + Longevity + ID",
+                                             "Age + Longevity^2 + ID"),
+                                legend.title = "Models",
+                                transform = NULL, vline.color = "black",
+                                colors = c("Longevity + ID"= "grey80", 
+                                           "Longevity^2 + ID" = "#d08af2", 
+                                           "Age + Longevity + ID" = "black",
+                                           "Age + Longevity^2 + ID" = "#a921eb")) + 
+  theme_bw()  
+
+
+## Average strength
+avg_strength_long <- glmmTMB(formula = avg_strength ~ season + longevity_5x_scale +
+                           (1|ID) + (1|year), 
+                         REML = F,                              # for model comparison
+                         family = Gamma(link = "inverse"),
+                         data = social_long_df)
+
+avg_strength_long2 <- glmmTMB(formula = avg_strength ~ season + 
+                            longevity_5x_scale + I(longevity_5x_scale^2) + 
+                            (1|ID) + (1|year), 
+                          REML = F,                              # for model comparison
+                          family = Gamma(link = "inverse"),
+                          data = social_long_df)
+
+avg_strength_age2 <- glmmTMB(formula = avg_strength ~ season + 
+                           poly(age_scale, 2, raw = TRUE) + 
+                           (1|ID) + (1|year), 
+                         REML = F,                              # for model comparison
+                         family = Gamma(link = "inverse"),
+                         data = social_long_df)
+
+# Plot the results
+all_avg_strength_long2 <- list(avg_strength_long, avg_strength_long2, avg_strength_age2)
+
+avgs_models <- plot_models(all_avg_strength_long2, 
+                           m.labels = c("Longevity + ID",
+                                        "Longevity^2 + ID",
+                                        "Age + ID"),
+                           legend.title = "Models",
+                           transform = NULL, vline.color = "black",
+                           colors = c("Longevity + ID"= "grey80", 
+                                      "Longevity^2 + ID" = "#d08af2", 
+                                      "Age + ID" = "darkgoldenrod")) + 
+  theme_bw()
+
+
+# ---- Supplementary Figure S18 - Effect of longevity across the 3 age polynomials ----
+# Roost fidelity
+fidelity_poly1 <- glmmTMB(formula = roost_fid ~ age_scale * season + 
+                            longevity_5x_scale + 
+                            (1|ID) + (1|year),
+                          REML = F,
+                          family = binomial(link="logit"),
+                          data = roost_long_df)
+
+fidelity_poly2 <- glmmTMB(formula = roost_fid ~ poly(age_scale, 2, raw = TRUE) * season + 
+                            longevity_5x_scale + 
+                            (1|ID) + (1|year),
+                          REML = F,                   
+                          family = binomial(link="logit"),
+                          data = roost_long_df)
+
+fidelity_poly3 <- glmmTMB(formula = roost_fid ~ poly(age_scale, 3, raw = TRUE) * season + 
+                            longevity_5x_scale + 
+                            (1|ID) + (1|year),
+                          REML = F,                   
+                          family = binomial(link="logit"),
+                          data = roost_long_df)
+
+all_fidelity_polys <- list(fidelity_poly1, fidelity_poly2, fidelity_poly3)
+
+fidelity_polys_plot <- plot_models(all_fidelity_polys, 
+                                   m.labels = c("Age + Longevity + ID",
+                                                "Age (2nd degree poly) + Longevity + ID",
+                                                "Age (3rd degree poly) + Longevity + ID"),
+                                   legend.title = "Models",
+                                   transform = NULL, vline.color = "black") +
+  theme_bw()  
+
+
+# Roost popularity
+popularity_poly1 <- glmmTMB(formula = is_popular_roost ~ age_scale * season + 
+                              longevity_5x_scale + 
+                              (1|ID) + (1|year),
+                            REML = F,                   
+                            family = binomial(link="logit"),
+                            data = roost_long_df)
+
+popularity_poly2 <- glmmTMB(formula = is_popular_roost ~ poly(age_scale, 2, raw = TRUE) * season +
+                              longevity_5x_scale + 
+                              (1|ID) + (1|year),
+                            REML = F,                   
+                            family = binomial(link="logit"),
+                            data = roost_long_df)
+
+popularity_poly3 <- glmmTMB(formula = is_popular_roost ~ poly(age_scale, 3, raw = TRUE) * season +
+                              longevity_5x_scale + 
+                              (1|ID) + (1|year),
+                            REML = F,                   
+                            family = binomial(link="logit"),
+                            data = roost_long_df)
+
+all_popularity_polys <- list(popularity_poly1, popularity_poly2, popularity_poly3)
+
+popularity_polys_plot <- plot_models(all_popularity_polys, 
+                                     m.labels = c("Age + Longevity + ID",
+                                                  "Age (2nd degree poly) + Longevity + ID",
+                                                  "Age (3rd degree poly) + Longevity + ID"),
+                                     legend.title = "Models",
+                                     transform = NULL, vline.color = "black") + 
+  theme_bw()  
+
 
